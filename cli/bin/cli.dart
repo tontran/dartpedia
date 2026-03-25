@@ -4,12 +4,12 @@ import 'package:command_runner/command_runner.dart';
 
 const version = '0.0.1';
 
-void main(List<String> arguments) async{
-  var runner = CommandRunner();
-  await runner.run(arguments);
+void main(List<String> arguments) {
+  var commandRunner = CommandRunner()..addCommand(HelpCommand());
+  commandRunner.run(arguments);
 }
 
-void searchWikipedia(List<String>? arguments) async{
+void searchWikipedia(List<String>? arguments) async {
   final String articleTitle;
 
   // If user didn't pass in arguments, request an article title
@@ -17,7 +17,7 @@ void searchWikipedia(List<String>? arguments) async{
     print('Please provide an article title.');
     final inputFromStdin = stdin.readLineSync(); // Read input
 
-    if(inputFromStdin == null || inputFromStdin.isEmpty){
+    if (inputFromStdin == null || inputFromStdin.isEmpty) {
       print('No article title provided. Existing.');
       return;
     }
@@ -26,7 +26,7 @@ void searchWikipedia(List<String>? arguments) async{
     articleTitle = arguments.join(' ');
   }
   print('Looking up articles about "$articleTitle". Please wait.');
-  
+
   // Call the API and await the result
   var articleContent = await getWikipediaArticle(articleTitle);
   print(articleContent); // Print the full article response (raw JSON for now)
